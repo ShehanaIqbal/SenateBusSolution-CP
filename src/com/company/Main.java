@@ -4,33 +4,24 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
-
-        //parameters to generate buses and riders
-//        float riderArrivalMeanTime = 30f * 1000;
-//        float busArrivalMeanTime = 20 * 60f * 1000;
-        float riderArrivalMeanTime = 5f * 1000;
-        float busArrivalMeanTime= 30f * 1000 ;
-
-        //taking an input to terminate the program
-        Scanner scanner = new Scanner(System.in);
-        String userInput;
-        System.out.println("\n*******  Press any key to exit.  *******\n" );
+    public static void main(String[] args) {
 
         WaitingArea waitingArea = new WaitingArea();
+        RiderGenerator riderGenerator = new RiderGenerator(waitingArea);
+        SenateBusGenerator busGenerator = new SenateBusGenerator(waitingArea);
 
-        //start rider generator
-        RiderGenerator riderGenerator = new RiderGenerator(riderArrivalMeanTime, waitingArea);
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+        System.out.println("\nPress 'X' key to exit.\n" );
+
+        // initialize generators
         (new Thread(riderGenerator)).start();
-
-        //start bus genrator
-        SenateBusGenerator busGenerator = new SenateBusGenerator(busArrivalMeanTime,waitingArea);
         (new Thread(busGenerator)).start();
 
-        // Program Termination with a user input
+        // terminate the program
         while(true){
             userInput = scanner.nextLine();
-            if(userInput != null)
+            if((userInput.equals("X")) | (userInput.equals("x")))
                 System.exit(0);
         }
     }

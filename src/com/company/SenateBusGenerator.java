@@ -4,32 +4,29 @@ import java.util.Random;
 
 class SenateBusGenerator implements Runnable {
 
-    private float arrivalMeanTime;
+    private static final float arrivalMeanTime = 20*60f*1000;
     private WaitingArea waitingArea;
-    private static Random random;
 
-    public SenateBusGenerator(float arrivalMeanTime, WaitingArea waitingArea) {
-        this.arrivalMeanTime = arrivalMeanTime;
+    public SenateBusGenerator(WaitingArea waitingArea) {
         this.waitingArea = waitingArea;
-        random = new Random();
     }
     @Override
     public void run() {
         int SenateBusId = 1;
+        Random rand = new Random();
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                System.out.println("Bus "+ SenateBusId+" is about to arrive...");
+                System.out.println("Bus "+ SenateBusId+" created");
                 SenateBus SenateBus = new SenateBus( SenateBusId, waitingArea, WaitingArea.getRiderBoards(), WaitingArea.getBusDeparts(), WaitingArea.getMutex());
+
                 (new Thread(SenateBus)).start();
                 SenateBusId++;
-                Thread.sleep(getExponentiallyDistributedSenateBusInterArrivalTime());
+
+                float lambda = 1 / arrivalMeanTime;
+                Thread.sleep(Math.round(-Math.log(1 - rand.nextFloat()) / lambda));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-    }
-    public long getExponentiallyDistributedSenateBusInterArrivalTime() {
-        float lambda = 1 / arrivalMeanTime;
-        return Math.round(-Math.log(1 - random.nextFloat()) / lambda);
     }
 }

@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 class Rider implements Runnable {
 
     private final int id;
-    private WaitingArea waitingArea;
+    private final WaitingArea waitingArea;
     private final Semaphore riderArrives;
     private final Semaphore riderBoards;
     private final Semaphore busDeparts;
@@ -29,7 +29,7 @@ class Rider implements Runnable {
             waitingArea.incrementWaitingRiders();
             mutex.release();
             riderBoards.acquire();
-            boardBus();
+            Board();
             riderArrives.release();
             waitingArea.decrementWaitingRiders();
             if (waitingArea.getWaitingRiders() == 0)
@@ -40,12 +40,9 @@ class Rider implements Runnable {
             e.printStackTrace();
         }
     }
-    public void boardBus() {
-        System.out.println("Rider :" + id + " boarded");
-    }
-    
+
     public void enterBoardingArea() {
-        System.out.println("Rider :" + id + " entered boarding area");
+        System.out.println("Rider :" + id + " entered the waiting area");
     }
 
     private void Board(){

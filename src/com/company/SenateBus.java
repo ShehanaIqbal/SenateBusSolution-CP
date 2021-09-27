@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 public class SenateBus implements Runnable {
 
     private final int id;
-    private WaitingArea waitingArea;
+    private final WaitingArea waitingArea;
     private final Semaphore riderBoards;
     private final Semaphore busDeparts;
     private final Semaphore mutex;
@@ -35,11 +35,11 @@ public class SenateBus implements Runnable {
     }
 
     public void arrive() {
-        System.out.println("Bus " + id + " arrived");
-        System.out.println("No of waiting riders when bus arrived : " + waitingArea.getWaitingRiders());
+        System.out.println("Senate bus " + id + " arrived");
+        System.out.println("No of waiting riders when senate bus "+id+" arrived : " + waitingArea.getWaitingRiders());
     }
 
     public void depart() {
-        System.out.println("Bus : " + id + " departed");
+        System.out.println("Senate bus : " + id + " departed");
     }
 }
